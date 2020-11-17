@@ -22,7 +22,10 @@ const cookieStorage = {
     },
     // Set a cookie in the browser with key value pairs as parameters.
     setItem: (key, value) =>{
-        document.cookie = `${key}=${value}`;
+        var d = new Date();
+        d.setTime(d.getTime() + (100 * 24 * 60 * 60 * 1000));
+        var expires = "expires="+d.toUTCString();
+        document.cookie = key + "=" + value + ";" + expires + ";path=/";
     },
 };
 
@@ -40,17 +43,26 @@ const shouldShowPopup = () => !storageType.getItem(consentPropertyName);
 const saveToStorage = () => storageType.setItem(consentPropertyName, true);
 
 window.onload = () =>{
+    const consentPopup = document.getElementById('consent-popup');
+    const acceptBtn = document.getElementById('accept');
+
+    const acceptfn = event => {
+        saveToStorage(storageType);
+        consentPopup.classList.add('hidden');
+    };
+
+    acceptBtn.addEventListener('click', acceptfn);
+
     if (shouldShowPopup()) {
-        const consent = confirm('Agree to the trems and conditions of the site?');
-        if(consent){
-            saveToStorage();
-        }
+        setTimeout(() => {
+           consentPopup.classList.remove('hidden'); 
+        }, 800);
     }
 };
 
 
-
 /*
+
 This code demonstarights how to save things in to local or session storage.
 */
 
