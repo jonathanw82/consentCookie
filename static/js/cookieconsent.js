@@ -54,6 +54,7 @@ window.onload = () =>{
     acceptBtn.addEventListener('click', acceptfn);
 
     if (shouldShowPopup()) {
+        // waits 800ms before showing the modal.
         setTimeout(() => {
            consentPopup.classList.remove('hidden'); 
         }, 800);
